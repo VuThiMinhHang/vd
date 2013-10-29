@@ -2,10 +2,28 @@ class UsersController < ApplicationController
   before_action :signed_in_user,
                 only: [:index, :edit, :update]
   before_action :correct_user,   only: [:edit, :update]
+  before_action :can_show?, only: :show
 
   def show
     @user = User.find(params[:id])
     @books = @user.books.paginate(page: params[:page], per_page: 5)
+  end
+
+  def can_show?
+    user = User.find(params[:id])
+     if ( signed_in?)
+      if(current_user != (user))
+          if(!user.status)
+            flash[:erros] = "List Book private"
+            redirect_to root_url
+          end
+      else
+        #ishhvsgh
+      end
+     else
+     redirect_to signin_url  
+   end
+
   end
 
   def update

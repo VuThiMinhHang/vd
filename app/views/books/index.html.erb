@@ -2,7 +2,7 @@
 <h1>All books</h1>
 
 <ul class="books">
-  <% @books.each do |book| %>
+  <% @all_books.each do |book| %>
   	<% if book.user.status? || current_user?(book.user) %>
     <%= render book %>
 
@@ -10,4 +10,4 @@
 
   <% end %>
 </ul>
-<%= will_paginate @books  %>
+<%= will_paginate @all_books %>

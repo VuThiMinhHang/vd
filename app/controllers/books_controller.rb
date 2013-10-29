@@ -3,9 +3,13 @@ class BooksController < ApplicationController
   before_action :correct_user,   only: :destroy
 
   def index
-    
-    @books = Book.paginate(page: params[:page], per_page: 3)
-  
+    @all_id_books = []
+    Book.all.each do |book| 
+      if book.user.status? || current_user?(book.user)
+        @all_id_books << book
+      end
+    end
+    @all_books = Book.where(:id => @all_id_books).paginate(page: params[:page], per_page: 3)
 
   end
 
